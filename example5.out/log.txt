@@ -1,0 +1,59 @@
+//// uMagNUS 2.1.2 linux_amd64 go1.17.8 (gc) 
+
+//// OpenCL C Version OpenCL C 1.2 
+// GPU: NVIDIA GeForce RTX 2080 SUPER(7974MB) 
+ 
+
+////(c) Xuanyao Fong, SEEDER Research Group 
+
+////@ National University of Singapore, Singapore 
+
+////Web site: https://blog.nus.edu.sg/seeder 
+
+////Email: kelvin.xy.fong@nus.edu.sg 
+
+////Source code can be downloaded at https://github.com/seeder-research/uMagNUS 
+
+//This is free software without any warranty. See license.txt
+//********************************************************************//
+//  If you use uMagNUS in any work or publication,                    //
+//  we kindly ask you to cite the references in references.bib        //
+//********************************************************************//
+////uMagNUS is an OpenCL-based derivative of MuMax 3.10: (c) Arne Vansteenkiste, Dynamat LAB, Ghent University, Belgium 
+
+//output directory: build/example5.out/
+setgridsize(256, 128, 1)
+setcellsize(5e-9, 5e-9, 5e-9)
+m = Uniform(1, 1, 0)
+saveas(m, "uniform")
+m = Vortex(1, -1)
+saveas(m, "vortex")
+m = TwoDomain(1, 0, 0, 0, 1, 0, -1, 0, 0)
+saveas(m, "twodomain")
+m = RandomMag()
+saveas(m, "randommag")
+m = TwoDomain(1, 0, 0, 0, 1, 0, -1, 0, 0).rotz(-pi / 4)
+saveas(m, "twodomain_rot")
+m = VortexWall(1, -1, 1, 1)
+saveas(m, "vortexwall")
+m = VortexWall(1, -1, 1, 1).scale(1/2, 1, 1)
+saveas(m, "vortexwall_scale")
+m = Vortex(1, -1).transl(100e-9, 50e-9, 0)
+saveas(m, "vortex_transl")
+m = Vortex(1, -1).Add(0.1, randomMag())
+saveas(m, "vortex_add_random")
+m = BlochSkyrmion(1, -1).scale(3, 3, 1)
+saveas(m, "Bloch_skyrmion")
+m = NeelSkyrmion(1, -1).scale(3, 3, 1)
+saveas(m, "Néel_skyrmion")
+m = uniform(1, 1, 1)
+m.setInShape(cylinder(400e-9, 100e-9), vortex(1, -1))
+m.setCell(20, 10, 0, vector(0.1, 0.1, -0.9))
+saveas(m, "setInShape_setCell")
+m.loadfile("myfile.ovf")
+saveas(m, "loadfile")
+//********************************************************************//
+//Please cite the following references, relevant for your simulation. //
+//See bibtex file in output folder for justification.                 //
+//********************************************************************//
+//   * Vansteenkiste et al., AIP Adv. 4, 107133 (2014).

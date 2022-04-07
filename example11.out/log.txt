@@ -1,0 +1,50 @@
+//// uMagNUS 2.1.2 linux_amd64 go1.17.8 (gc) 
+
+//// OpenCL C Version OpenCL C 1.2 
+// GPU: NVIDIA GeForce RTX 2080 SUPER(7974MB) 
+ 
+
+////(c) Xuanyao Fong, SEEDER Research Group 
+
+////@ National University of Singapore, Singapore 
+
+////Web site: https://blog.nus.edu.sg/seeder 
+
+////Email: kelvin.xy.fong@nus.edu.sg 
+
+////Source code can be downloaded at https://github.com/seeder-research/uMagNUS 
+
+//This is free software without any warranty. See license.txt
+//********************************************************************//
+//  If you use uMagNUS in any work or publication,                    //
+//  we kindly ask you to cite the references in references.bib        //
+//********************************************************************//
+////uMagNUS is an OpenCL-based derivative of MuMax 3.10: (c) Arne Vansteenkiste, Dynamat LAB, Ghent University, Belgium 
+
+//output directory: build/example11.out/
+setGridSize(256, 64, 1)
+setCellSize(3e-9, 3e-9, 10e-9)
+Msat = 860e3
+Aex = 13e-12
+Xi = 0.1
+alpha = 0.02
+m = twodomain(1, 0, 0, 0, 1, 0, -1, 0, 0)
+notches := rect(15e-9, 15e-9).RotZ(45*pi/180).Repeat(200e-9, 64*3e-9, 0).Transl(0, 32*3e-9, 0)
+setGeom(notches.inverse())
+BoundaryRegion := 0
+MagLeft := 1
+MagRight := -1
+ext_rmSurfaceCharge(BoundaryRegion, MagLeft, MagRight)
+relax()
+ext_centerWall(0)
+autosave(m, 50e-12)
+tableadd(ext_dwpos)
+tableautosave(10e-12)
+pol = 0.56
+J = vector(-10e12, 0, 0)
+Run(0.5e-9)
+//********************************************************************//
+//Please cite the following references, relevant for your simulation. //
+//See bibtex file in output folder for justification.                 //
+//********************************************************************//
+//   * Vansteenkiste et al., AIP Adv. 4, 107133 (2014).

@@ -1,0 +1,67 @@
+//// uMagNUS 2.1.2 linux_amd64 go1.17.8 (gc) 
+
+//// OpenCL C Version OpenCL C 1.2 
+// GPU: NVIDIA GeForce RTX 2080 SUPER(7974MB) 
+ 
+
+////(c) Xuanyao Fong, SEEDER Research Group 
+
+////@ National University of Singapore, Singapore 
+
+////Web site: https://blog.nus.edu.sg/seeder 
+
+////Email: kelvin.xy.fong@nus.edu.sg 
+
+////Source code can be downloaded at https://github.com/seeder-research/uMagNUS 
+
+//This is free software without any warranty. See license.txt
+//********************************************************************//
+//  If you use uMagNUS in any work or publication,                    //
+//  we kindly ask you to cite the references in references.bib        //
+//********************************************************************//
+////uMagNUS is an OpenCL-based derivative of MuMax 3.10: (c) Arne Vansteenkiste, Dynamat LAB, Ghent University, Belgium 
+
+//output directory: build/example12.out/
+N := 256
+c := 4e-9
+d := 40e-9
+setgridsize(N, N, 1)
+setcellsize(c, c, d)
+setGeom(circle(N * c))
+grainSize := 40e-9
+randomSeed := 1234567
+maxRegion := 255
+ext_makegrains(grainSize, maxRegion, randomSeed)
+defregion(256, circle(N*c).inverse())
+alpha = 3
+Kc1 = 1000
+Aex = 13e-12
+Msat = 860e3
+for i := 0; i < maxRegion; i++ {
+	axis1 := vector(randNorm(), randNorm(), randNorm())
+	helper := vector(randNorm(), randNorm(), randNorm())
+	axis2 := axis1.cross(helper)
+	AnisC1.SetRegion(i, axis1)
+	AnisC2.SetRegion(i, axis2)
+	K := 1e5
+	Kc1.SetRegion(i, K+randNorm()*0.1*K)
+}
+for i := 0; i < maxRegion; i++ {
+	for j := i + 1; j < maxRegion; j++ {
+		ext_ScaleExchange(i, j, 0.9)
+	}
+}
+m = vortex(1, 1)
+run(.1e-9)
+save(regions)
+save(Kc1)
+save(AnisC1)
+save(AnisC2)
+save(m)
+save(exchCoupling)
+//********************************************************************//
+//Please cite the following references, relevant for your simulation. //
+//See bibtex file in output folder for justification.                 //
+//********************************************************************//
+//   * Leliaert et al., J. Appl. Phys. 115, 233903 (2014)
+//   * Vansteenkiste et al., AIP Adv. 4, 107133 (2014).

@@ -1,0 +1,47 @@
+//// uMagNUS 2.1.2 linux_amd64 go1.17.8 (gc) 
+
+//// OpenCL C Version OpenCL C 1.2 
+// GPU: NVIDIA GeForce RTX 2080 SUPER(7974MB) 
+ 
+
+////(c) Xuanyao Fong, SEEDER Research Group 
+
+////@ National University of Singapore, Singapore 
+
+////Web site: https://blog.nus.edu.sg/seeder 
+
+////Email: kelvin.xy.fong@nus.edu.sg 
+
+////Source code can be downloaded at https://github.com/seeder-research/uMagNUS 
+
+//This is free software without any warranty. See license.txt
+//********************************************************************//
+//  If you use uMagNUS in any work or publication,                    //
+//  we kindly ask you to cite the references in references.bib        //
+//********************************************************************//
+////uMagNUS is an OpenCL-based derivative of MuMax 3.10: (c) Arne Vansteenkiste, Dynamat LAB, Ghent University, Belgium 
+
+//output directory: build/example13.out/
+N := 10
+setgridsize(N, N, 2)
+c := 1e-9
+setcellsize(c, c, c)
+defRegion(0, layer(0))
+defRegion(1, layer(1))
+Msat = 1e6
+Aex = 10e-12
+RKKY := -1e-3
+scale := (RKKY * c) / (2 * Aex.Average())
+ext_scaleExchange(0, 1, scale)
+tableAdd(E_total)
+m.setRegion(0, uniform(1, 0, 0))
+for ang := 0; ang < 360; ang++ {
+	m.setRegion(1, uniform(cos(ang*pi/180), sin(ang*pi/180), 0))
+	t = ang * 1e-9
+	tablesave()
+}
+//********************************************************************//
+//Please cite the following references, relevant for your simulation. //
+//See bibtex file in output folder for justification.                 //
+//********************************************************************//
+//   * Vansteenkiste et al., AIP Adv. 4, 107133 (2014).

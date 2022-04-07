@@ -1,0 +1,43 @@
+//// uMagNUS 2.1.2 linux_amd64 go1.17.8 (gc) 
+
+//// OpenCL C Version OpenCL C 1.2 
+// GPU: NVIDIA GeForce RTX 2080 SUPER(7974MB) 
+ 
+
+////(c) Xuanyao Fong, SEEDER Research Group 
+
+////@ National University of Singapore, Singapore 
+
+////Web site: https://blog.nus.edu.sg/seeder 
+
+////Email: kelvin.xy.fong@nus.edu.sg 
+
+////Source code can be downloaded at https://github.com/seeder-research/uMagNUS 
+
+//This is free software without any warranty. See license.txt
+//********************************************************************//
+//  If you use uMagNUS in any work or publication,                    //
+//  we kindly ask you to cite the references in references.bib        //
+//********************************************************************//
+////uMagNUS is an OpenCL-based derivative of MuMax 3.10: (c) Arne Vansteenkiste, Dynamat LAB, Ghent University, Belgium 
+
+//output directory: build/example9.out/
+setgridsize(256, 256, 1)
+setcellsize(2e-9, 2e-9, 1e-9)
+setgeom(rect(400e-9, 400e-9))
+msat = 600e3
+aex = 10e-12
+m = vortex(1, 1)
+relax()
+save(m)
+MFMLift = 10e-9
+saveas(MFM, "lift_10nm")
+MFMLift = 40e-9
+saveas(MFM, "lift_40nm")
+MFMLift = 90e-9
+saveas(MFM, "lift_90nm")
+//********************************************************************//
+//Please cite the following references, relevant for your simulation. //
+//See bibtex file in output folder for justification.                 //
+//********************************************************************//
+//   * Vansteenkiste et al., AIP Adv. 4, 107133 (2014).
